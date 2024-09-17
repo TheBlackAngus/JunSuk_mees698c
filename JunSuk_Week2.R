@@ -14,6 +14,8 @@ Aus_shp <- read_sf('https://github.com/fitzLab-AL/spatialEcology2024_classShare/
   filter(NAME=="Australia") %>%
   st_transform(crs=4326)
 
+#####code above did work for me, not sure why
+
 Ausclim <- worldclim[[c(10,11,18,19)]] %>%
   crop(Aus_shp, mask=T)
 
@@ -27,6 +29,12 @@ grasstree <- sp_occurrence(genus="Xanthorrhoea", species="australis",
 st_write(grasstree, file="grasstree in Australia.shp")
 
 # 4. Map Xanthorrhoea australis
+
+#####Nice plot, but in the data are in a 
+##### strange / wrong projection. See assignment.
+#####Also, there is an erroneous record in the 
+#####center of Australia.
+
 grasstree_bio10 <- ggplot() +
   geom_spatraster(data=project(Ausclim[[1]], "EPSG:5070")) +
   scale_fill_viridis_b() +
@@ -44,6 +52,9 @@ grasstree_clim <- extract(Ausclim, grasstree, ID=FALSE, cells=FALSE, xy=T) %>%
             bio18_grasstree=wc2.1_5m_bio_18,
             bio19_grasstree=wc2.1_5m_bio_19,
             x=x, y=y)
+
+#####Check the assignment - we needed just a sample
+##### of the data, not the entire dataset for Australia.
 
 Ausclim_df <- as.data.frame(Ausclim, xy=T) %>%
   transmute(bio10_aus=wc2.1_5m_bio_10,
