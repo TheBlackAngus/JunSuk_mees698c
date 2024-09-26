@@ -51,6 +51,11 @@ plot(c2, main='Lower increment')
 ### What is your interpretation of the resulting plot? 
 # The sample has higher values in points around the center, with decreasing values as the points are placed farther from the center
 
+##### NOTE: check the solution for the answer here & make sure you understand 
+# the interpretation of correlograms. In particular, the correlogram shows the 
+# *spatial correlation* between points not the value of the samples themselves.
+
+
 ### Does the correlogram look different if you sample random locations instead of using a regularly spaced grid of samples?
 Cwren_s2 <- spatSample(Cwren, size=500, method='random', na.rm=T, as.df=T, xy=T,
                       ext=c(-1000000, 1000000, 3000000, 5000000))
@@ -73,6 +78,9 @@ plot(c, main='Regular sample')
 plot(c3, main='Random sample')
 # Apparently, no. Although the intensity of correlation differs, the spatial patterns of both samples are almost identical.
 
+#### Good answer - I would say though that the difference between the plots is due
+# to a difference in the increment, which produced more pairs of samples in the random sample.
+
 # 4. Variogram
 par(mfrow=c(1,1))
 v <- variogram(log(carolinaWren)~1, Cwren_s2_sf, alpha=c(0,45,90,135))
@@ -84,3 +92,8 @@ plot(v)
 ### If you were to design a study to measure abundance of the Carolina wren across its geographic range, is
 ### there a distance at which you should space the sample sites to minimize spatial autocorrelation in the observations?
 # The sill of the variogram in all 4 directions are close to 800000, so I would space the sample sites by 800km.
+
+#### NOTE: You are correct in that the sill is a good estimate of the distance at which
+# spatial autocorrelation is minimized. However, for a variogram that is not direction - and
+# as is also the case for most of the direction variograms in your plot, there isn't much
+# of a sill at all. This means that the spatial autocorrelation is not all that minimized at any distance.
